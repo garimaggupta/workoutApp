@@ -63,7 +63,7 @@
                 let videoID = response.items[0].id.videoId;
                 console.log(videoID);
 
-                let urlVideo = "https://www.googleapis.com/youtube/v3/videos?part=player&id="+videoID+"key="+apikey;
+                let urlVideo = "https://www.googleapis.com/youtube/v3/videos?part=player&id="+videoID+"&key="+apikey;
 
                 $.ajax({
                     url: urlVideo,
