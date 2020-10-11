@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Workouts</title>
+</head>
+
+<body>
+    <div>
+        <form>
+            <p>Please select the length of workout:</p>
+            <input type="radio" id="7" name="workoutLength" value="7 min">
+            <label for="7">7 Minutes</label><br>
+            <input type="radio" id="15" name="workoutLength" value="15 min">
+            <label for="15">15 Minutes</label><br>
+            <input type="radio" id="30" name="workoutLength" value="30 min">
+            <label for="30">30 Minutes</label>
+
+            <br>
+
+            <p>Please select type of workout:</p>
+            <input type="radio" id="zumba" name="workoutType" value="zumba">
+            <label for="age1">Zumba</label><br>
+            <input type="radio" id="yoga" name="workoutType" value="yoga">
+            <label for="age2">Yoga</label><br>
+            <input type="radio" id="hiit" name="workoutType" value="hiit">
+            <label for="age3">HIIT</label><br><br>
+            <input type="submit" value="Submit" id="submitBtn">
+        </form>
+        <br>
+        <br>
+    </div>
+    <div id="showVideo">
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        let url = "https://www.googleapis.com/youtube/v3/search?part=snippet&key=AIzaSyC8Qu6XP38KOGWpy7WIeGJsskGBa8QbKtQ";
+        let urlVideo = "https://www.googleapis.com/youtube/v3/videos?part=player&id=ml6cT4AZdqI&key=AIzaSyC8Qu6XP38KOGWpy7WIeGJsskGBa8QbKtQ";
+
+        $("#submitBtn").on("click", function (event) {
+
+            event.preventDefault();
+
+            let workout_len = $("input[name=workoutLength]:checked").val();
+            let workout_type = $("input[name=workoutType]:checked").val();
+
+            console.log(workout_len);
+            console.log(workout_type);
+
+            let url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q="+workout_len+" "+workout_type+"&key=AIzaSyC8Qu6XP38KOGWpy7WIeGJsskGBa8QbKtQ";
+
+            $.ajax({
+                url: url,
+                method: "GET"
+            }).then(function (response) {
+                console.log("------------------All Videos------------------------");
+                console.log(response);
+                console.log("----------------------------------------------------");
+
+                let videoID = response.items[0].id.videoId;
+                console.log(videoID);
+
+                let urlVideo = "https://www.googleapis.com/youtube/v3/videos?part=player&id="+videoID+"&key=AIzaSyC8Qu6XP38KOGWpy7WIeGJsskGBa8QbKtQ";
+
+                $.ajax({
+                    url: urlVideo,
+                    method: "GET"
+                }).then(function (response) {
+                    console.log("------------------All Videos------------------------");
+                    console.log(response);
+                    console.log(response.items[0].player.embedHtml);
+                    console.log("---------------------------------------------------");
+                    let videoFrame = response.items[0].player.embedHtml;
+                    $("#showVideo").html(videoFrame);
+                })
+            })
+
+
+        })
+
+
+    </script>
+</body>
+
+</html>
