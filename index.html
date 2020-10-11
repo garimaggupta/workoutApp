@@ -40,6 +40,8 @@
 
         $("#submitBtn").on("click", function (event) {
 
+            let apikey = "AIzaSyCFf4gPGKOAJQ95G-PIBgi-QiCS7YXJiaY";
+
             event.preventDefault();
 
             let workout_len = $("input[name=workoutLength]:checked").val();
@@ -48,7 +50,7 @@
             console.log(workout_len);
             console.log(workout_type);
 
-            let url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q="+workout_len+" "+workout_type+"&key=AIzaSyC8Qu6XP38KOGWpy7WIeGJsskGBa8QbKtQ";
+            let url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q="+workout_len+" "+workout_type+"&key="+apikey;
 
             $.ajax({
                 url: url,
@@ -61,7 +63,7 @@
                 let videoID = response.items[0].id.videoId;
                 console.log(videoID);
 
-                let urlVideo = "https://www.googleapis.com/youtube/v3/videos?part=player&id="+videoID+"&key=AIzaSyC8Qu6XP38KOGWpy7WIeGJsskGBa8QbKtQ";
+                let urlVideo = "https://www.googleapis.com/youtube/v3/videos?part=player&id="+videoID+"key="+apikey;
 
                 $.ajax({
                     url: urlVideo,
